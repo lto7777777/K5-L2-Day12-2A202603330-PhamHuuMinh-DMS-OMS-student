@@ -1,0 +1,7 @@
+frame_id,source,phenomenon,affected_field,effect_on_label
+D01,real_IR,"đốm phản xạ LED trắng trên tròng kính cận, phủ đúng vùng mắt (hiện tượng 2 của slide 22)",eye_left,"ghi unknown; đây đúng ca slide 23 đưa ra. Không suy từ mắt còn lại (§4.4-1)"
+D03,real_IR,"ánh sáng giảm theo khoảng cách: mặt và thân tài xế sáng rõ, hàng ghế sau và nền chìm hẳn vào đen (hiện tượng 1 của slide 22)",person,"hộp person chỉ ôm được phần thấy được; phần thân chìm trong nền không kéo hộp ra thêm (§4.4-5)"
+D05,real_IR,"tay áp sát tai, vật trong tay (nếu có) lẫn hoàn toàn vào bóng tối của tóc và tai",phone,"KHÔNG vẽ phone. §4.7 nói rõ: không thấy cạnh, góc hay màn hình thì không vẽ"
+S03_ir,IR_sim,"ba lô màu đỏ trên ảnh _rgb thành một khối xám, không phân biệt được với nệm ghế bằng màu nữa",object.type,"vẫn ghi bag, nhưng nhận bằng HÌNH DẠNG (quai, khoá kéo) chứ không bằng màu (§4.4-4)"
+S02_ir,IR_sim,"vân vải hoa văn của nôi xách vẫn còn, nhưng sắc độ sáng tối giữa nôi và nệm ghế gần nhau hơn hẳn ảnh _rgb",infant_seat,"ranh giới mép nôi khó xác định hơn; phải phóng to mới kéo hộp sát mép được"
+S03_ir,IR_sim,"KHÔNG có hiện tượng giảm theo khoảng cách: cả khoang sáng đều, không có vùng tối dần về phía sau như D##",(ghi chú),"bằng chứng IR-sim không thay được NIR thật. Slide 22 xếp giảm theo khoảng cách là hiện tượng số 1 của IR thật, mà ở S## thì không có"
