@@ -35,24 +35,22 @@ thật. Gộp hai cái lại là tự lừa mình.
 ## 2 câu hỏi leo thang
 
 1. **Câu hỏi:** Bốn trên tám cảnh SVIRO cốt lõi có trẻ em hoặc em bé **đang
-   ngồi** trong ghế, nhưng GUIDE §3 lại nói "Bộ ảnh không có trẻ em ngồi. Thấy
-   hình giống trẻ em thì báo coach, không gán." Và schema không diễn đạt được ca
-   này: `child_seat.occupied` chỉ có `no` và `unknown`, cố ý bỏ `yes`; còn
-   `infant_seat` không có trường nào nói ghế đang có người. Làm đúng §3 thì bỏ
-   trống nửa lô. Vậy phải gán thế nào?
+   ngồi** trong ghế, nhưng GUIDE §3 nói "Bộ ảnh không có trẻ em ngồi. Thấy hình
+   giống trẻ em thì báo coach, không gán."
 
-   Khung ví dụ: `S01_rgb` (trẻ ngồi ghế trẻ em đỏ), `S03_rgb` và `S05_rgb` (em bé
-   nằm trong nôi), `S08_rgb` (trẻ ngồi cạnh người lớn).
+   Khung ví dụ: `S01_rgb` và `S08_rgb` (trẻ ngồi ghế trẻ em), `S03_rgb` và
+   `S05_rgb` (em bé nằm trong nôi).
 
-   Em tạm gán thế nào và vì sao: vẽ **hai box riêng** — `person` cho trẻ và
-   `child_seat`/`infant_seat` cho ghế, `occupied = unknown` vì không có `yes` để
-   chọn. Em theo cách này vì §4.8 đã có tiền lệ "vật nằm trong ghế trẻ em thì hai
-   box riêng", và vì giữ được dữ liệu còn hơn bỏ trống. Nhưng `unknown` ở đây là
-   sai sự thật: em nhìn thấy rõ là có người ngồi.
+   Em làm thế nào: theo §3, em **không** vẽ `person` cho trẻ. Thay vào đó ghi
+   `child_seat` với `occupied = yes` — giá trị này có trên slide 54 và có trong
+   bản `labels_cabin_v1.json` mới, dù bản trong repo khóa thì không có.
 
-   Chỗ em nghĩ là gốc của vấn đề: **slide 54 của bài giảng có `occupied (yes · no
-   · unknown)`.** Giá trị `yes` bị bỏ ở `labels_cabin_v1.json` của buổi lab chứ
-   không phải chưa từng tồn tại. Nên có lẽ chỉ cần khôi phục lại cho khớp slide.
+   **Chỗ em muốn hỏi:** `infant_seat` không có trường nào nói ghế đang có người,
+   ở cả ba bản schema em thấy. Nên ở `S03` và `S05`, sau khi bỏ box `person`
+   theo §3, nhãn **không còn ghi lại gì** về việc có em bé trong xe: nôi có em
+   bé và nôi rỗng trông y hệt nhau. Mà "quên trẻ trong xe" lại đúng là chức năng
+   quan trọng nhất của OMS. `infant_seat` có nên có `occupied` như `child_seat`
+   không ạ?
 
 2. **Câu hỏi:** `frame_meta.modality` chỉ có `rgb` và `ir`, nên NIR thật (D##)
    và IR mô phỏng (S##_ir) cùng mang một nhãn `ir`. Nhưng hai thứ đó khác nhau

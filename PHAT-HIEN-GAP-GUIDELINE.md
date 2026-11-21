@@ -92,3 +92,67 @@ hai việc khác hẳn nhau: `camera_id` để biết khung hình từ camera n�
 Slide 54 còn ghi ở chân: *"Task 4 buổi chiều: mỗi cặp sửa, thêm, bớt và ghi lý
 do 'để làm gì' cho từng dòng."* Nên việc nêu mấy chỗ lệch này **chính là** Task 4,
 không phải đi ngoài đề.
+
+---
+
+## Cập nhật 22/11: đã có bản schema sửa, nhưng script kiểm thì chưa sửa theo
+
+Sáng 22/11 xuất hiện một bản `labels_cabin_v1.json` khác, ở `D:\AIA\day12\`,
+sửa lúc 00:03 ngày 22/11. So với bản trong repo khóa thì **khác đúng hai dòng**:
+
+```
+<           "no"
+---
+>           "no",
+>           "yes"
+```
+
+Tức là `child_seat.occupied` được trả lại giá trị `yes`, đúng như slide 54.
+Mọi thứ còn lại y hệt: 9 nhãn, mọi thuộc tính khác, cả phần `svg` của `face13`.
+Bản trong gói ảnh `G07/` vẫn là bản cũ, không có `yes`.
+
+### Đã áp dụng
+
+- Thêm `yes` vào schema của project trên CVAT.
+- Bốn box `child_seat` ở `S01` và `S08` (mỗi cảnh hai modality) đổi từ
+  `occupied = unknown` sang `occupied = yes`. Trước đó phải ghi `unknown` dù
+  nhìn rõ là có người ngồi, vì không có giá trị nào khác để chọn.
+- Theo đúng §3 ("thấy hình giống trẻ em thì báo coach, không gán"), các box
+  `person` và `face` của trẻ em và em bé đã được gỡ. Thông tin "ghế này có
+  người" giờ nằm ở `occupied = yes` chứ không nằm ở một box `person`.
+
+### Vấn đề còn lại 1 — script kiểm chưa khớp với schema mới
+
+`scripts/cabin_schema.py` dòng 48 vẫn ghi cứng:
+
+```python
+"child_seat": ("rectangle", {"seat": SEATS, "occupied": ["unknown", "no"]}),
+```
+
+Nên `cabin_check` báo **4 lỗi** cho đúng bốn box vừa sửa:
+
+```
+[ERROR] S01_rgb.png: child_seat: occupied='yes' không hợp lệ (cho phép: unknown, no)
+```
+
+Hai nửa của bộ công cụ đang nói ngược nhau: file nhãn cho phép `yes`, script
+kiểm thì cấm. Làm theo cái nào cũng sai một cái.
+
+**Nhóm chọn giữ `yes` và báo lại**, thay vì sửa `cabin_schema.py` cho dữ liệu
+của mình lọt qua. Sửa script để bài mình pass đúng là kiểu việc RULES đã cảnh
+báo, và làm vậy thì giấu luôn chỗ lệch này khỏi coach.
+
+Đề nghị: nếu bản JSON có `yes` là bản chính thức thì xin coach phát kèm
+`cabin_schema.py` sửa tương ứng. Một dòng là xong.
+
+### Vấn đề còn lại 2 — `infant_seat` vẫn không có chỗ ghi "có người"
+
+`child_seat` được trả lại `yes`, nhưng `infant_seat` thì **không có trường nào**
+nói ghế đang có người, ở cả ba bản schema. Nó chỉ có `seat` và `facing`.
+
+Hệ quả cụ thể trên lô này: `S03` và `S05` đều có em bé nằm trong nôi. Sau khi gỡ
+box `person` theo §3, hai cảnh đó **không còn ghi lại gì** về việc có em bé
+trong xe. Nôi có em bé và nôi rỗng giờ trông y hệt nhau trong nhãn.
+
+Với OMS thì đây đúng là trường hợp quan trọng nhất: quên trẻ trong xe. Nên
+`infant_seat` có lẽ cũng cần một trường `occupied` như `child_seat`.

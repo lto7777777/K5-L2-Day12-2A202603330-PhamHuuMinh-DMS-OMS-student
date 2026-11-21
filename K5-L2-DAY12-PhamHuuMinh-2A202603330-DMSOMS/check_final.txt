@@ -1,3 +1,17 @@
 File: /mnt/d/AIA/day12/pack/exemplar/A/export_final.zip
-Ảnh: 22 · đã có frame_meta: 22 · số đối tượng: child_seat=14, face=14, hand=11, infant_seat=8, object=8, person=18
-Kết quả: 0 lỗi, 0 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
+Ảnh: 22 · đã có frame_meta: 22 · số đối tượng: child_seat=14, face=10, hand=11, infant_seat=8, object=8, person=10
+  [ERROR] S01_ir.png: child_seat: occupied='yes' không hợp lệ (cho phép: unknown, no)
+  [ERROR] S01_rgb.png: child_seat: occupied='yes' không hợp lệ (cho phép: unknown, no)
+  [ERROR] S08_ir.png: child_seat: occupied='yes' không hợp lệ (cho phép: unknown, no)
+  [ERROR] S08_rgb.png: child_seat: occupied='yes' không hợp lệ (cho phép: unknown, no)
+Kết quả: 4 lỗi, 0 cảnh báo. Cảnh báo cần bạn tự xét, không tự động là sai.
+
+--- Giai thich cac dong ERROR o tren ---
+Cac loi "occupied='yes' khong hop le" KHONG phai loi gan nhan. Chung la cho
+lech giua hai nua cua bo cong cu khoa hoc:
+  - labels_cabin_v1.json ban moi (sua 22/11, va slide 54 cua bai giang) CO gia
+    tri `yes` cho child_seat.occupied.
+  - scripts/cabin_schema.py dong 48 van ghi cung ["unknown", "no"].
+Nhom chon giu `occupied = yes` vi do la su that nhin thay duoc tren anh, va de
+cho lech nay hien ra cho coach thay, thay vi sua cabin_schema.py cho bai minh
+lot qua. Chi tiet o PHAT-HIEN-GAP-GUIDELINE.md.
